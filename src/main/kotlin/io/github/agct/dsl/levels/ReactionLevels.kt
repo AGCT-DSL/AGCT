@@ -89,7 +89,7 @@ class CustomReactionsLevel internal constructor() {
             .map { (string, firstChar) -> Pair(string.substring(firstChar), string.substring(0 until firstChar)) }
             .map { (entity, coefficient) -> Pair(entity.trim(), coefficient.trim()) }
             .toMap()
-            .mapKeys { (entity, _) -> TopLevel.circuit.getOrPutEntity(entity) { DslMolecule(this) } }
+            .mapKeys { (entity, _) -> TopLevel.circuit.getOrPutEntity(entity) { DslGenericEntity(this) } }
             .mapValues { (_, coefficient) -> coefficient.toIntOrNull() ?: 1 }
 
     inner class ChemicalReactionLevel internal constructor(

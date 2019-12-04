@@ -2,17 +2,12 @@
 
 package agct
 
+import io.github.agct.model.entities.*
 import io.github.agct.model.entities.BasicGene
-import io.github.agct.model.entities.BasicMolecule
 import io.github.agct.model.entities.BasicProtein
 import io.github.agct.model.entities.BasicRegulatingEntity
 import io.github.agct.model.entities.DegradingRegulatingEntity
-import io.github.agct.model.entities.Entity
 import io.github.agct.model.entities.EntityParameters
-import io.github.agct.model.entities.Gene
-import io.github.agct.model.entities.Protein
-import io.github.agct.model.entities.RegulatingEntity
-import io.github.agct.model.variables.BasicRate
 
 abstract class DslEntity internal constructor() {
     internal abstract val modelEntity: Entity
@@ -43,22 +38,28 @@ class DslProtein(override val id: String) : DslRegulating() {
 
 class DslRegulator(override val id: String) : DslRegulating() {
     override val modelEntity: RegulatingEntity
-        get() = if(degradationRate == null) {
-            BasicRegulatingEntity(parameters)
-        } else {
-            DegradingRegulatingEntity(parameters)
-        }
+        get() = modelEntity(doesDegrade = degradationRate != null, doesRegulate = true)
     override var degradationRate: DslRate? = null
 }
 
-class DslMolecule(override val id: String) : DslDegradable() {
+class DslGenericEntity(override val id: String) : DslDegradable() {
     override val modelEntity: Entity
-        get() = BasicMolecule(parameters)
-    override var degradationRate: DslRate? = DslRate(default = BasicRate(0.0))
+        get() = modelEntity(doesDegrade = degradationRate != null, doesRegulate = false)
+    override var degradationRate: DslRate? = null
 }
 
-private val DslEntity.parameters
+private val DslEntity.parameters: EntityParameters
     get() = EntityParameters().also {
         it.id = id
         it.initialConcentration = initialConcentration.value
     }
+
+private inline fun<reified T: Entity> DslEntity.modelEntity(doesDegrade: Boolean, doesRegulate: Boolean): T = when {
+    doesDegrade && doesRegulate -> DegradingRegulatingEntity(parameters)
+    doesDegrade && !doesRegulate -> BasicDegradingEntity(parameters)
+    !doesDegrade && doesRegulate -> BasicRegulatingEntity(parameters)
+    else -> BasicEntity(parameters)
+}.run {
+    if (this is T) this
+    else throw IllegalArgumentException("The model entity $this can not be casted to ${T::class.simpleName}")
+}

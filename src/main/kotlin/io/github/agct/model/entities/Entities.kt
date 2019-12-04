@@ -54,11 +54,6 @@ interface Protein : DegradingEntity, RegulatingEntity,
     TranscribableEntity
 
 /**
- * A generic molecule.
- */
-interface Molecule : DegradingEntity
-
-/**
  * A [genetic entity][Entity] composed of two bound single entities.
  */
 interface BoundEntity<out F : Entity, out S : Entity> :

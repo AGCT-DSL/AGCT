@@ -47,9 +47,6 @@ internal class BasicMRna(parameters: EntityParameters) :
 internal class BasicProtein(parameters: EntityParameters) :
     AbstractEntity(parameters), Protein
 
-internal class BasicMolecule(parameters: EntityParameters) :
-    AbstractEntity(parameters), Molecule
-
 internal class RegulatedMRna(mRna: MRna, regulator: RegulatingEntity) :
     AbstractBoundEntity<MRna, RegulatingEntity>(mRna, regulator),
     MRna
