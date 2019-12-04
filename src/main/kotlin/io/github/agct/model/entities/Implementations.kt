@@ -4,9 +4,10 @@ import io.github.agct.model.utils.checkEquals
 import io.github.agct.model.utils.string
 import io.github.agct.model.utils.type
 
-internal abstract class AbstractEntity(parameters: EntityParameters) :
-    Entity {
-    override val id = parameters.id
+internal abstract class AbstractEntity(parameters: EntityParameters) : Entity {
+    override val id = parameters.id.apply {
+        require(!startsWith('_')) { "The id \"$this\" starts with an underscore but it shouldn't" }
+    }
     override val initialConcentration = parameters.initialConcentration
     override val aliases = parameters.aliases.toList()
 

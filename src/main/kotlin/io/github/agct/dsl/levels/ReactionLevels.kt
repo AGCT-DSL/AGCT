@@ -84,7 +84,7 @@ class CustomReactionsLevel internal constructor() {
         ChemicalReactionLevel(DslChemicalReaction(this.toEntityMap(), products.toEntityMap()))
 
     private fun String.toEntityMap(): Map<DslEntity, Int>  =
-        split("+").map { string -> Pair(string, string.indexOfFirst { it.isLetter() }) }
+        split("+").map { string -> Pair(string, string.indexOfFirst { it.isLetter() || it == '_' }) }
             .filter { (_, firstChar) -> firstChar >= 0 }
             .map { (string, firstChar) -> Pair(string.substring(firstChar), string.substring(0 until firstChar)) }
             .map { (entity, coefficient) -> Pair(entity.trim(), coefficient.trim()) }
