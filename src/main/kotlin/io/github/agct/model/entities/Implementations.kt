@@ -6,7 +6,8 @@ import io.github.agct.model.utils.type
 
 internal abstract class AbstractEntity(parameters: EntityParameters) : Entity {
     override val id = parameters.id.apply {
-        require(!startsWith('_')) { "The id \"$this\" starts with an underscore but it shouldn't" }
+        require(matches(ID_PATTERN)) { "The id \"$this\" does not match pattern $ID_PATTERN" }
+ //       require(!startsWith('_')) { "The id \"$this\" starts with an underscore but it shouldn't" }
     }
     override val initialConcentration = parameters.initialConcentration
     override val aliases = parameters.aliases.toList()
