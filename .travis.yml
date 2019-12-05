@@ -2,8 +2,8 @@
 language: bash
 # Enable them all, if you need them.
 os:
-  - linux
   - osx
+  - linux
   - windows
 env:
   global:
