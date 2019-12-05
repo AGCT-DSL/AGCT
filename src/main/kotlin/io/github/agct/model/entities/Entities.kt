@@ -5,7 +5,7 @@ import io.github.agct.model.variables.Concentration
 /**
  * The pattern an entity id should match to be valid.
  */
-val ID_PATTERN = Regex("^[a-z]([_a-z0-9]+)*\$", RegexOption.IGNORE_CASE)
+val ID_PATTERN = Regex("""^[a-z]((_|-)?[a-z0-9]+)*$""", RegexOption.IGNORE_CASE)
 
 /**
  * An entity inside the genetic circuit, identified by its [id].
