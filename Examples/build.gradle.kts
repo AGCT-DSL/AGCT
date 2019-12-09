@@ -1,6 +1,14 @@
 dependencies {
     implementation(rootProject)
-    implementation("it.unibo.alchemist:alchemist:9.0.0")
+    implementation("it.unibo.alchemist:alchemist:9.0.0") {
+        exclude(module = "alchemist-incarnation-protelis")
+        exclude(module = "alchemist-incarnation-sapere")
+        exclude(module = "alchemist-incarnation-scafi")
+        exclude(module = "alchemist-grid")
+        exclude(module = "alchemist-cognitive-agents")
+        exclude(module = "alchemist-maps")
+        exclude(module = "alchemist-projectview")
+    }
     testImplementation("io.github.classgraph:classgraph:4.8.58")
     runtimeOnly("org.slf4j:slf4j-nop:1.7.26")
 }
