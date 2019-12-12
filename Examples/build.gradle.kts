@@ -4,7 +4,6 @@ dependencies {
         exclude(module = "alchemist-incarnation-protelis")
         exclude(module = "alchemist-incarnation-sapere")
         exclude(module = "alchemist-incarnation-scafi")
-        exclude(module = "alchemist-grid")
         exclude(module = "alchemist-cognitive-agents")
         exclude(module = "alchemist-maps")
         exclude(module = "alchemist-projectview")
@@ -20,12 +19,12 @@ tasks {
         args("--help")
     }
 
-    register<JavaExec>("exportCircuit") {
+    val exportCircuit = register<JavaExec>("exportCircuit") {
         classpath = project.sourceSets["main"].runtimeClasspath
-        main = "${simulation}Kt"
+        main = "io.github.agct.examples.${simulation}Kt"
     }
 
-    register<JavaExec>("runCircuit") {
+    val runCircuit = register<JavaExec>("runCircuit") {
         val arguments = arrayOf(
             "-y", "export/${simulation.toLowerCase()}/alchemist.yml",
             "-e", "export/${simulation.toLowerCase()}/alchemistdata",
@@ -35,16 +34,16 @@ tasks {
         classpath = project.sourceSets["main"].runtimeClasspath
         main = "it.unibo.alchemist.Alchemist"
         args(*arguments, *vars)
-        mustRunAfter("exportCircuit")
+        dependsOn(exportCircuit)
     }
 
-    register<Exec>("plotCircuit") {
-        commandLine("py", "src/main/python/$simulation.py")
-        mustRunAfter("runCircuit")
+    val plotCircuit = register<Exec>("plotCircuit") {
+        commandLine("python", "src/main/python/$simulation.py")
+        dependsOn(runCircuit)
     }
 
     register<Task>("executeCircuit") {
-        dependsOn("exportCircuit", "runCircuit", "plotCircuit")
+        dependsOn(exportCircuit, runCircuit, plotCircuit)
     }
 }
 
