@@ -14,8 +14,9 @@ interface Generator {
     fun from(circuit: GeneticCircuit)
 }
 
-abstract class AbstractGenerator(protected open val files: GeneticCircuit.() -> Map<String, String>) :
-    Generator {
+abstract class AbstractGenerator(
+    protected open val files: GeneticCircuit.() -> Map<String, String>
+) : Generator {
     constructor(filesMap: GeneticCircuit.(MutableMap<String, String>) -> Unit) : this(files = {
         mutableMapOf<String, String>().also { filesMap(it) }.toMap()
     })
