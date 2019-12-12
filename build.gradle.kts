@@ -9,12 +9,14 @@ allprojects {
     apply(plugin = "kotlin")
 
     repositories {
+        jcenter()
         mavenCentral()
     }
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
         implementation("org.jetbrains.kotlin:kotlin-scripting-jvm")
+        implementation("org.redundent:kotlin-xml-builder:+")
         testCompile("io.kotlintest:kotlintest-runner-junit5:$kotlinTestVersion")
     }
 
