@@ -11,6 +11,7 @@ import agct.reaction
 import agct.regulating
 import agct.unbinding
 import io.github.agct.generation.target.Alchemist
+import io.github.agct.generation.target.SBOL
 
 fun main() {
     Create circuit "Genetic Toggle Switch" containing {
@@ -51,5 +52,5 @@ fun main() {
         a default binding.rate of 1
         a default unbinding.rate of 1
         a default reaction.rate of 1
-    } then export to Alchemist
+    } then export to SBOL
 }
