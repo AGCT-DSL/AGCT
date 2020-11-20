@@ -18,43 +18,46 @@ jobs:
       # Checkout the repository
       - uses: actions/checkout@v2
       # Check if the configuration is supported
-      - shell: bash
+      - name: Prepare Environment
+        shell: bash
         run: |
           if [ -x .github/scripts/check_environment ]; then
             .github/scripts/check_environment
           else
+            echo "COMPATIBLE=true"
             echo "COMPATIBLE=true" >> $GITHUB_ENV
+            echo "SHOULD_DEPLOY=$([ "$OS" = 'ubuntu' ] && [ "$JAVA_VERSION" = 8 ] && echo 'true' || echo 'false')"
             echo "SHOULD_DEPLOY=$([ "$OS" = 'ubuntu' ] && [ "$JAVA_VERSION" = 8 ] && echo 'true' || echo 'false')" >> $GITHUB_ENV
           fi
       # Install the JDK
       - uses: joschi/setup-jdk@v2.3.0
-        if: ${{ env.COMPATIBLE }}
+        if: ${{ env.COMPATIBLE == 'true' }}
         with:
           java-version: ${{ matrix.jvm_version }}
       # Install additional packages
       - name: Configure Linux
         shell: bash
-        if: ${{ env.COMPATIBLE && contains(matrix.os, 'ubuntu') }}
+        if: ${{ env.COMPATIBLE == 'true' && contains(matrix.os, 'ubuntu') }}
         run: |
           if [ -x .github/scripts/configure_linux ]; then
             .github/scripts/configure_linux
           fi
       - name: Configure MacOS X
         shell: bash
-        if: ${{ env.COMPATIBLE && contains(matrix.os, 'macos') }}
+        if: ${{ env.COMPATIBLE == 'true' && contains(matrix.os, 'macos') }}
         run: |
           if [ -f .github/scripts/configure_macos ]; then
             .github/scripts/configure_macos
           fi
       - name: Configure Windows
         shell: bash
-        if: ${{ env.COMPATIBLE && contains(matrix.os, 'windows') }}
+        if: ${{ env.COMPATIBLE == 'true' && contains(matrix.os, 'windows') }}
         run: |
           if [ -f .github/scripts/configure_windows ]; then
             .github/scripts/configure_windows
           fi
       - name: Build
-        if: ${{ env.COMPATIBLE }}
+        if: ${{ env.COMPATIBLE == 'true' }}
         shell: bash 
         run: |
           if [ -x 'build.sh' ]; then
@@ -81,7 +84,7 @@ jobs:
             exit 1
           fi
       - name: Deploy
-        if: ${{ env.SHOULD_DEPLOY }}
+        if: ${{ env.SHOULD_DEPLOY == 'true' }}
         shell: bash
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
