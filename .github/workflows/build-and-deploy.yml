@@ -48,7 +48,7 @@ jobs:
       - shell: bash
         run: .github/build-steps/compatibility_check.sh
       # Install the JDK
-      - uses: joschi/setup-jdk@v2.3.0
+      - uses: joschi/setup-jdk@v2.4.0
         if: ${{ env.COMPATIBLE == 'true' }}
         with:
           java-version: ${{ matrix.jvm_version }}
