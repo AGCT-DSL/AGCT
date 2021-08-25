@@ -1,8 +1,6 @@
 {
   "extends": [
-    "config:base"
+    "github>DanySK/renovate-config"
   ],
-  "assignees": ["DanySK"],
-  "automerge": true,
   "baseBranches": ["develop"]
 }
