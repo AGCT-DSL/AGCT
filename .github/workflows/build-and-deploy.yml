@@ -48,7 +48,7 @@ jobs:
       - shell: bash
         run: .github/build-steps/compatibility_check.sh
       # Install the JDK
-      - uses: joschi/setup-jdk@v2.4.0
+      - uses: joschi/setup-jdk@v2.3.0
         if: ${{ env.COMPATIBLE == 'true' }}
         with:
           java-version: ${{ matrix.jvm_version }}
@@ -92,7 +92,7 @@ jobs:
         run: .github/build-steps/check.sh || .github/build-steps/check.sh
       - name: CodeCov
         if: ${{ env.REFERENCE == 'true' }}
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v1
       - name: Deploy
         if: ${{ env.REFERENCE == 'true' && github.event_name == 'push' }}
         shell: bash
