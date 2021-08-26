@@ -1,4 +1,4 @@
-val kotlinVersion = "1.3.50"
+val kotlinVersion = "1.5.30"
 val kotlinTestVersion = "3.3.3"
 
 plugins {
