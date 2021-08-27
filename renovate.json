@@ -1,6 +1,5 @@
 {
   "extends": [
-    "github>DanySK/renovate-config"
-  ],
-  "baseBranches": ["develop"]
+    "github>DanySK/renovate-config/develop"
+  ]
 }
