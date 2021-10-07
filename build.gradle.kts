@@ -3,7 +3,7 @@ val kotlinTestVersion = "3.3.3"
 
 plugins {
     java
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version "1.5.31"
 }
 
 repositories {
