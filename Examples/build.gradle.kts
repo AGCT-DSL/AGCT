@@ -11,7 +11,7 @@ dependencies {
     compile(rootProject)
     compile("org.jetbrains.kotlin:kotlin-scripting-jvm")
     compile("org.slf4j:slf4j-nop:1.7.32")
-    compile(group = "it.unibo.alchemist", name = "alchemist", version = "9.3.0")
+    compile(group = "it.unibo.alchemist", name = "alchemist", version = "10.0.1")
 }
 
 tasks {
